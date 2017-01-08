@@ -1,0 +1,5 @@
+com/mresende/marsrovers/core/Main.class
+com/mresende/marsrovers/core/LandingProcessor.class
+com/mresende/marsrovers/core/Orientation.class
+com/mresende/marsrovers/exceptions/InvalidOrientationException.class
+com/mresende/marsrovers/core/Position.class
