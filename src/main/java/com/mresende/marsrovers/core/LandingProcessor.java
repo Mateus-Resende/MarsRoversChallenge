@@ -20,11 +20,13 @@ class LandingProcessor {
     private static Integer[] UPPER_RIGHT_LIMIT;
     private Position _position;
     private File _inputFile;
+
     private static final Logger LOG = Logger.getLogger(LandingProcessor.class.getName());
 
     LandingProcessor(File file, Boolean debug) throws InvalidLimitsException {
         UPPER_RIGHT_LIMIT = new Integer[2];
         _inputFile = file;
+        LOG.info("Setting level of logger. Debug: " + debug.toString());
         this.setLogLevel(debug);
 
         this.run();
@@ -38,22 +40,27 @@ class LandingProcessor {
      */
     private void run() throws InvalidLimitsException {
         try {
+            LOG.info("Reading from file");
             BufferedReader bufferedReader = new BufferedReader(new FileReader(_inputFile));
             // reading first line of the file (upper right limits)
             String line = bufferedReader.readLine();
+            LOG.info("Setting upper right limits of the landing area");
             this.setUpperRightLimit(line);
             boolean isPositionLine = true;
 
             while ((line = bufferedReader.readLine()) != null) {
                 // should only consider lines with characters
                 if (line.isEmpty()) {
+                    LOG.info("Line is empty, skip it...");
                     continue;
                 }
 
                 if (isPositionLine) {
+                    LOG.info("Position line detected, trying to setup the coordinates");
                     // sets the position of the current mars rover
                     _position = new Position(line, LandingProcessor.UPPER_RIGHT_LIMIT);
                 } else {
+                    LOG.info("Moving mars rover accordingly");
                     // move the current mars rover
                     _position.moveMarsRover(line, LandingProcessor.UPPER_RIGHT_LIMIT);
                     System.out.println(_position.toString());
@@ -91,6 +98,7 @@ class LandingProcessor {
         Integer yLimit = Integer.parseInt(limits[1]);
 
         if (this.isLimitValid(xLimit, yLimit)) {
+            LOG.info("Limit is valid, setting up: " + xLimit + " " + yLimit);
             LandingProcessor.UPPER_RIGHT_LIMIT[0] = xLimit;
             LandingProcessor.UPPER_RIGHT_LIMIT[1] = yLimit;
         } else {

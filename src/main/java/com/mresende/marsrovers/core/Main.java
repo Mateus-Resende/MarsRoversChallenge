@@ -6,6 +6,7 @@ import com.beust.jcommander.converters.FileConverter;
 import com.mresende.marsrovers.exceptions.InvalidLimitsException;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 /**
  * Created by mresende on 07/01/17.
@@ -13,6 +14,8 @@ import java.io.File;
  * Main class that will receive the file where the commands are located and if it should run in debug mode or not (default false)
  */
 public class Main {
+
+    private static Logger LOG =java.util.logging.Logger.getLogger(Main.class.getName());
 
     @Parameter(names = {"-f", "--file"}, converter = FileConverter.class, description = "Location of input _file with rovers' landing commands")
     private File _file;
@@ -30,7 +33,7 @@ public class Main {
         try {
             new LandingProcessor(_file, _debug);
         } catch (InvalidLimitsException e) {
-            e.printStackTrace();
+            LOG.severe(e.getMessage());
         }
     }
 
