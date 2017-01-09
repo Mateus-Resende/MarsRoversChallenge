@@ -3,11 +3,14 @@ package com.mresende.marsrovers.core;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.converters.FileConverter;
+import com.mresende.marsrovers.exceptions.InvalidLimitsException;
 
 import java.io.File;
 
 /**
  * Created by mresende on 07/01/17.
+ *
+ * Main class that will receive the file where the commands are located and if it should run in debug mode or not (default false)
  */
 public class Main {
 
@@ -24,7 +27,11 @@ public class Main {
     }
 
     private void start() {
-        new LandingProcessor(_file, _debug);
+        try {
+            new LandingProcessor(_file, _debug);
+        } catch (InvalidLimitsException e) {
+            e.printStackTrace();
+        }
     }
 
 }
